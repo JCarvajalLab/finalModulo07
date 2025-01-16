@@ -27,7 +27,7 @@
             <v-icon small color="yellow" class="mr-2" @click="editarCurso(item)">
                 mdi-pencil
             </v-icon>
-            <v-icon small color="red" @click="eliminarCurso(item)">
+            <v-icon small color="red" @click="abrirDialogoEliminar(item)">
                 mdi-delete
             </v-icon>
         </template>
@@ -36,6 +36,20 @@
     <!-- Diálogo de edición -->
     <v-dialog v-model="dialogEditar" max-width="600">
         <EditComponent v-if="dialogEditar" :curso="cursoSeleccionado" @guardar-curso="actualizarCurso" @close-dialog="dialogEditar = false" />
+    </v-dialog>
+
+    <!-- Diálogo de confirmación para eliminar un curso -->
+    <v-dialog v-model="dialogoEliminar" max-width="400">
+        <v-card>
+            <v-card-title class="headline">¿Está seguro que desea eliminar este curso?</v-card-title>
+            <v-card-text>
+                Esta acción no se puede deshacer.
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="red darken-1" text @click="confirmarEliminacion">Continuar</v-btn>
+                <v-btn color="grey" text @click="dialogoEliminar = false">Cancelar</v-btn>
+            </v-card-actions>
+        </v-card>
     </v-dialog>
 </v-container>
 </template>
@@ -56,7 +70,9 @@ export default {
     data() {
         return {
             dialogEditar: false, // Controla la visibilidad del diálogo de edición
+            dialogoEliminar: false, // Controla la visibilidad del diálogo de eliminación
             cursoSeleccionado: null, // Almacena el curso seleccionado para editar
+            cursoAEliminar: null, // Almacena el curso seleccionado para eliminar
             headers: [
                 { title: 'Curso', key: 'nombre' },
                 { title: 'Cupos', key: 'cupos' },
@@ -65,7 +81,7 @@ export default {
                 { title: 'Costo', key: 'costo' },
                 { title: 'Terminados', key: 'completado' },
                 { title: 'Fecha de Registro', key: 'fecha_registro' },
-                { title: 'Acciones', key: 'actions', sortable: false }, // Columna de acciones
+                { title: 'Acciones', key: 'actions', sortable: false }, // Columna de accione
             ],
         };
     },
@@ -78,17 +94,25 @@ export default {
             this.dialogEditar = true; // Abre el diálogo
         },
 
-        // Método para eliminar un curso
-        eliminarCurso(item) {
-            console.log('Eliminar curso:', item);
+        // Método para abrir el diálogo de eliminación
+        abrirDialogoEliminar(item) {
+            this.cursoAEliminar = item; // Almacena el curso que se va a eliminar
+            this.dialogoEliminar = true;
+        },
+
+        // Método para confirmar la eliminación de un curso
+        confirmarEliminacion() {
+            this.$store.dispatch('eliminarCursoStore', this.cursoAEliminar.id); // Llama a la acción para eliminar el curso
+            this.dialogoEliminar = false;
+            this.cursoAEliminar = null; // Reinicia la variable del curso a eliminar
         },
 
         // Método para actualizar un curso
         actualizarCurso(cursoActualizado) {
             this.$store.commit('actualizarCursoStore', cursoActualizado); // Actualiza el curso en el store
-            this.dialogEditar = false; // Cierra el diálogo
+            this.dialogEditar = false;
         },
-        
+
     },
 };
 </script>

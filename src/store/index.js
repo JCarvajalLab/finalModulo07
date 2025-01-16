@@ -128,6 +128,11 @@ export default createStore({
         if (index !== -1) {
             state.cursos.splice(index, 1, cursoActualizado); // Reemplaza el curso existente
         }
+    },
+
+    // Mutación para eliminar un curso
+    eliminarCursoStore(state, idCurso) {
+        state.cursos = state.cursos.filter(curso => curso.id !== idCurso); // Filtra y elimina el curso
     }
 },
 actions: {
@@ -139,6 +144,11 @@ actions: {
     // Acción para actualizar un curso
     actualizarCursoStore({ commit }, cursoActualizado) {
         commit('actualizarCursoStore', cursoActualizado); // Llama a la mutación
+    },
+
+    // Acción para eliminar un curso
+    eliminarCursoStore({ commit }, idCurso) {
+        commit('eliminarCursoStore', idCurso); // Llama a la mutación
     }
 },
   modules: {
