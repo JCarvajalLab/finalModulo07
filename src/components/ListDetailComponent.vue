@@ -24,10 +24,10 @@
 
         <!-- Columna de Acciones (Editar y Eliminar) -->
         <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editarCurso(item)">
+            <v-icon small color="yellow" class="mr-2" @click="editarCurso(item)">
                 mdi-pencil
             </v-icon>
-            <v-icon small @click="eliminarCurso(item)">
+            <v-icon small color="red" @click="eliminarCurso(item)">
                 mdi-delete
             </v-icon>
         </template>
