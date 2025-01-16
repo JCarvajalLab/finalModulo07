@@ -68,6 +68,7 @@
 import { mapGetters } from 'vuex'; // Importa mapGetters para acceder a los getters
 
 export default {
+    components:{},
     computed: {
         ...mapGetters([
             'totalAlumnosPermitidos',
