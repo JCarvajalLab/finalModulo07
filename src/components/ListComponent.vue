@@ -76,5 +76,7 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos personalizados si los necesitas */
+.text-h6 {
+  color: black !important; /* Fuerza el color del texto a negro */
+}
 </style>
