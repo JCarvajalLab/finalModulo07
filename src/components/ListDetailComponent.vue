@@ -32,6 +32,11 @@
             </v-icon>
         </template>
     </v-data-table>
+
+    <!-- Diálogo de edición -->
+    <v-dialog v-model="dialogEditar" max-width="600">
+        <EditComponent v-if="dialogEditar" :curso="cursoSeleccionado" @guardar-curso="actualizarCurso" @close-dialog="dialogEditar = false" />
+    </v-dialog>
 </v-container>
 </template>
 
@@ -39,34 +44,51 @@
 import {
     mapState
 } from 'vuex'; // Importa mapState para acceder al store
+import EditComponent from './EditComponent.vue'; // Importa el componente de edición
 
 export default {
-computed: {
+    components: {
+        EditComponent
+    },
+    computed: {
         ...mapState(['cursos']), // Mapea el estado 'cursos' del store
     },
     data() {
         return {
-            // Definición de las columnas de la tabla
+            dialogEditar: false, // Controla la visibilidad del diálogo de edición
+            cursoSeleccionado: null, // Almacena el curso seleccionado para editar
             headers: [
-                        { title: 'Curso', key: 'nombre' },
-                        { title: 'Cupos', key: 'cupos' },
-                        { title: 'Inscritos', key: 'inscritos' },
-                        { title: 'Duración', key: 'duracion' },
-                        { title: 'Costo', key: 'costo' },
-                        { title: 'Terminados', key: 'completado' },
-                        { title: 'Fecha de Registro', key: 'fecha_registro' },
-                        { title: 'Acciones', key: 'actions', sortable: false }, // Columna de acciones
+                { title: 'Curso', key: 'nombre' },
+                { title: 'Cupos', key: 'cupos' },
+                { title: 'Inscritos', key: 'inscritos' },
+                { title: 'Duración', key: 'duracion' },
+                { title: 'Costo', key: 'costo' },
+                { title: 'Terminados', key: 'completado' },
+                { title: 'Fecha de Registro', key: 'fecha_registro' },
+                { title: 'Acciones', key: 'actions', sortable: false }, // Columna de acciones
             ],
         };
     },
     methods: {
-        // Métodos para los botones (aún no hacen nada)
+        // Método para abrir el diálogo de edición
         editarCurso(item) {
-            console.log('Editar curso:', item);
+            this.cursoSeleccionado = {
+                ...item
+            }; // Copia los datos del curso seleccionado
+            this.dialogEditar = true; // Abre el diálogo
         },
+
+        // Método para eliminar un curso
         eliminarCurso(item) {
             console.log('Eliminar curso:', item);
         },
+
+        // Método para actualizar un curso
+        actualizarCurso(cursoActualizado) {
+            this.$store.commit('actualizarCursoStore', cursoActualizado); // Actualiza el curso en el store
+            this.dialogEditar = false; // Cierra el diálogo
+        },
+        
     },
 };
 </script>

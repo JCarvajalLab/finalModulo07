@@ -81,51 +81,66 @@ export default createStore({
     ],
   },
   getters: {
- // Sumatoria de alumnos permitidos (suma de cupos de todos los cursos)
-totalAlumnosPermitidos(state) {
-  return state.cursos.reduce((total, curso) => total + Number(curso.cupos), 0);
-},
+    // Sumatoria de alumnos permitidos (suma de cupos de todos los cursos)
+    totalAlumnosPermitidos(state) {
+      return state.cursos.reduce((total, curso) => total + Number(curso.cupos), 0);
+    },
 
-// Sumatoria de alumnos inscritos (suma de inscritos de todos los cursos)
-totalAlumnosInscritos(state) {
-  return state.cursos.reduce((total, curso) => total + Number(curso.inscritos), 0);
-},
+    // Sumatoria de alumnos inscritos (suma de inscritos de todos los cursos)
+    totalAlumnosInscritos(state) {
+      return state.cursos.reduce((total, curso) => total + Number(curso.inscritos), 0);
+    },
 
-// Sumatoria de cupos restantes (suma de cupos restantes de todos los cursos)
-totalCuposRestantes(state) {
-  return state.cursos.reduce((total, curso) => total + (Number(curso.cupos) - Number(curso.inscritos)), 0);
-},
+    // Sumatoria de cupos restantes (suma de cupos restantes de todos los cursos)
+    totalCuposRestantes(state) {
+      return state.cursos.reduce((total, curso) => total + (Number(curso.cupos) - Number(curso.inscritos)), 0);
+    },
 
-// Total de cursos terminados (cursos con completado = true)
-totalCursosTerminados(state) {
-  return state.cursos.filter(curso => curso.completado === true).length;
-},
+    // Total de cursos terminados (cursos con completado = true)
+    totalCursosTerminados(state) {
+      return state.cursos.filter(curso => curso.completado === true).length;
+    },
 
-// Total de cursos activos (cursos con completado = false)
-totalCursosActivos(state) {
-  return state.cursos.filter(curso => curso.completado === false).length;
-},
+    // Total de cursos activos (cursos con completado = false)
+    totalCursosActivos(state) {
+      return state.cursos.filter(curso => curso.completado === false).length;
+    },
 
-// Total de cursos (cantidad total de cursos)
-totalCursos(state) {
-  return state.cursos.length;
-},
+    // Total de cursos (cantidad total de cursos)
+    totalCursos(state) {
+      return state.cursos.length;
+    },
 
-  cursos(state) {
-    return state.cursos;
+    cursos(state) {
+      return state.cursos;
     }
-  
+
   },
   mutations: {
+    // Mutación para agregar un curso
     agregarcurso(state, nuevoCurso) {
-      state.cursos.push(nuevoCurso);
+        state.cursos.push(nuevoCurso);
+    },
+
+    // Mutación para actualizar un curso
+    actualizarCursoStore(state, cursoActualizado) {
+        const index = state.cursos.findIndex(curso => curso.id === cursoActualizado.id);
+        if (index !== -1) {
+            state.cursos.splice(index, 1, cursoActualizado); // Reemplaza el curso existente
+        }
     }
-  },
-  actions: {
+},
+actions: {
+    // Acción para agregar un curso
     agregarCursoStore({ commit }, nuevoCurso) {
-      commit('agregarcurso', nuevoCurso); // Llama a la mutación
-  }
-  },
+        commit('agregarcurso', nuevoCurso); // Llama a la mutación
+    },
+
+    // Acción para actualizar un curso
+    actualizarCursoStore({ commit }, cursoActualizado) {
+        commit('actualizarCursoStore', cursoActualizado); // Llama a la mutación
+    }
+},
   modules: {
   }
 })
