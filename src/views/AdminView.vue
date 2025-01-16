@@ -1,7 +1,7 @@
 <template>
 <NavbarComponent/>
 <div>
-    <h1>AdminView</h1>
+    <ListDetailComponent/>
 </div>
 
 <FooterComponent/>
@@ -10,13 +10,15 @@
 <script>
 import FooterComponent from '../components/FooterComponent.vue';
 import NavbarComponent from '../components/NavbarComponent.vue';
+import ListDetailComponent from '../components/ListDetailComponent.vue';
 
 export default {
     name: 'HomeView',
 
     components: {
         FooterComponent,
-        NavbarComponent
+        NavbarComponent,
+        ListDetailComponent
     },
 };
 </script>
