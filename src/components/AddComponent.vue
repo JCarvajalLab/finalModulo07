@@ -8,7 +8,7 @@
         <v-text-field label="Duración" v-model="duracion" required></v-text-field>
         <v-text-field label="Cupos" v-model="cupos" type="number" required></v-text-field>
         <v-text-field label="Inscritos" v-model="inscritos" type="number" required></v-text-field>
-        <v-text-field label="Fecha de Registro" v-model="fecha_registro" required></v-text-field>
+        <v-text-field label="Fecha de Registro" type="date" v-model="fecha_registro" required></v-text-field>
         <v-text-field label="URL de la Imagen" v-model="img" required></v-text-field> <!-- Nuevo campo para la imagen -->
         <v-textarea label="Descripción" v-model="descripcion" required></v-textarea>
         <v-checkbox label="Completado" v-model="completado"></v-checkbox>
